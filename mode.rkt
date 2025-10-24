@@ -13,10 +13,15 @@
 
 (define (format-input expr)
   (define trimmed (string-trim expr))
-  (define normalized (regexp-replace* #rx"\\s+" trimmed " "))
-  (if (string=? normalized "")
+  (if (string=? trimmed "")
       (error "Invalid input")
-      normalized))
+      ;; Insert spaces around operators and $ references
+      (let* ([with-spaces (regexp-replace* #rx"([+*/\\-]|\\$[0-9]+)" trimmed " \\1 ")]
+             [normalized (regexp-replace* #rx"\\s+" with-spaces " ")]
+             [final (string-trim normalized)])
+        (if (string=? final "")
+            (error "Invalid input")
+            final))))
 
 (define (add-to-history! value)
   (set! history-counter (+ history-counter 1))
@@ -53,7 +58,9 @@
   result)
 
 (format-input "+3*45")
-
-(eval-prefix "+3*45")
-(eval-prefix "* $1 2")
-(eval-prefix "+ $1 $2")
+(format-input "+3*45")       ; => "+ 3 * 4 5"
+(format-input "  + 3  * 4 5  ") ; => "+ 3 * 4 5"
+(format-input "+$1*45")    
+; (eval-prefix "+3*45")
+; (eval-prefix "* $1 2")
+; (eval-prefix "+ $1 $2")
