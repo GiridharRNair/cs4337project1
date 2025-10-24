@@ -36,7 +36,7 @@
 ;   (define trimmed (string-trim expr))
 ;   (when (string=? trimmed "")
 ;     (error "Invalid input: empty expression"))
-  
+
 ;   ;; Just normalize whitespace - the tokenizer will handle the rest
 ;   (regexp-replace* #rx"\\s+" trimmed " "))
 
@@ -44,32 +44,31 @@
   (define trimmed (string-trim expr))
   (when (string=? trimmed "")
     (error "Invalid input: empty expression"))
-  
+
   ;; Match: $-references, operators, or single digits (in that order!)
   (regexp-match* #rx"\\$[0-9]+|[+*/-]|[0-9]" trimmed))
 
 (define (eval-prefix expr [save-to-history? #t])
   (define tokens (tokenize expr))
-  
+
   (when (null? tokens)
     (error "Invalid input: no tokens to evaluate"))
-  
+
   (define (helper tokens)
     (when (null? tokens)
       (error "Invalid expression: unexpected end of input"))
-    
+
     (define token (car tokens))
     (define rest (cdr tokens))
-    
+
     (cond
       ;; History reference
-      [(and (> (string-length token) 1)
-            (char=? (string-ref token 0) #\$))
+      [(and (> (string-length token) 1) (char=? (string-ref token 0) #\$))
        (define index (string->number (substring token 1)))
        (if index
            (values (get-from-history index) rest)
            (error (format "Invalid history reference: ~a" token)))]
-      
+
       ;; Operator
       [(member token '("+" "-" "*" "/"))
        (when (null? rest)
@@ -86,28 +85,28 @@
                  [("*") (* left right)]
                  [("/") (/ left right)])
                rest-after-right)]
-      
+
       ;; Number
       [else
        (define num (string->number token))
        (if num
            (values num rest)
            (error (format "Invalid token: '~a'" token)))]))
-  
+
   (define-values (result remaining) (helper tokens))
-  
+
   (when (not (null? remaining))
     (error (format "Unused tokens: ~a" remaining)))
-  
+
   (when save-to-history?
     (add-to-history! result))
   result)
 
 ;; Tests
-(tokenize "+3*45")          ; => '("+" "3" "*" "4" "5")
+(tokenize "+3*45") ; => '("+" "3" "*" "4" "5")
 (tokenize "  + 3  * 4 5  ") ; => '("+" "3" "*" "4" "5")
-(tokenize "+$1*45")         ; => '("+" "$1" "*" "4" "5")
+(tokenize "+$1*45") ; => '("+" "$1" "*" "4" "5")
 
-(eval-prefix "+3*45")       ; => 23
-(eval-prefix "* $1 2")      ; => 46
-(eval-prefix "+ $1 $2")     ; => 69
+(eval-prefix "+3*45") ; => 23
+(eval-prefix "* $1 2") ; => 46
+(eval-prefix "+ $1 $2") ; => 69
