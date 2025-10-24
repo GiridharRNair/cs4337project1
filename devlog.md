@@ -17,15 +17,18 @@ October 23, 2025 7:55 PM
 
 I am going to implement a function(s) to format the input to evaluate the prefix expressions.
 I need to consider leading/trailing spaces, multiple spaces between tokens, and invalid characters.
-I removed unnecessary history functions like clear-history and show-history for now to keep the code simple.
+I removed unnecessary history functions like clear-history and show-history for now to keep the code 
+simple.
 
 Instead of creating a function to format the input, I created a tokenize function that handles
-trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the expressions.
+trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the 
+expressions.
 
 October 23, 2025 8:28 PM
 
 I am going to remove unused functions to clean up the code.
-I have removed both prior format input functions since the tokenize function now handles input formatting.
+I have removed both prior format input functions since the tokenize function now handles input 
+formatting.
 
 October 23, 2025 9:03 PM
 
@@ -34,7 +37,8 @@ I added a simple REPL loop to read user input, tokenize it, and print the tokens
 
 I am going to create a comprehensive, organized test suite for this project.
 
-I realized that my logic for history involved mutable hash-based history. I switched to using an immutable list-based history.
+I realized that my logic for history involved mutable hash-based history. I switched to using an 
+immutable list-based history.
 
 I also implemented logic to display the evaluated result of the prefix expression in the REPL loop
 with the history id.
