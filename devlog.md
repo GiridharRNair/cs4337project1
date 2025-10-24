@@ -130,7 +130,22 @@ The current tokenize function uses regular expressions to identify valid tokens 
 
 ### October 24, 2025 11:34 AM
 
-I am going to revise this devlog to be more comprehensive and organized.
+#### Thoughts Since Last Session
+Looking back at my devlog, I realize it's been too sparse and doesn't fully document my development process. Since the devlog is worth 50% of the grade, I need to make sure it properly showcases all the invisible work - my thinking process, problems encountered, and solutions implemented.
+
+I also need to add automated tests to verify my program works correctly in both modes.
+
+#### Plan for This Session
+Create automated test files that use batch mode to verify correctness.
+Make sure to test various scenarios:
+Basic arithmetic operations
+History references ($1, $2, etc.)
+Error cases (division by zero, invalid expressions, bad history indices)
+Complex nested expressions
+Edge cases (extra tokens, empty expressions)
+
+Revise the devlog to be more comprehensive and add missing reflection entries
+
 
 
 
