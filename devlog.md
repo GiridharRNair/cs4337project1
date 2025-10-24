@@ -133,18 +133,15 @@ The current tokenize function uses regular expressions to identify valid tokens 
 #### Thoughts Since Last Session
 Looking back at my devlog, I realize it's been too sparse and doesn't fully document my development process. Since the devlog is worth 50% of the grade, I need to make sure it properly showcases all the invisible work - my thinking process, problems encountered, and solutions implemented.
 
-I also need to add automated tests to verify my program works correctly in both modes.
+I also need to write a README file that clearly explains how to run the program in both interactive and batch modes, along with examples.
 
 #### Plan for This Session
-Create automated test files that use batch mode to verify correctness.
-Make sure to test various scenarios:
-Basic arithmetic operations
-History references ($1, $2, etc.)
-Error cases (division by zero, invalid expressions, bad history indices)
-Complex nested expressions
-Edge cases (extra tokens, empty expressions)
-
-Revise the devlog to be more comprehensive and add missing reflection entries
+I am going to go back through my development process and fill in the gaps in the devlog. I will add more detailed reflections on each session, including challenges faced and how I overcame them.
+Additionally, I will create a README file that includes:
+Overview of the project
+Instructions for running in interactive mode
+Instructions for running in batch mode
+Examples of usage
 
 
 
