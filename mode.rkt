@@ -26,16 +26,6 @@
 (define (get-from-history index)
   (hash-ref history index (lambda () (error (format "History reference $~a not found" index)))))
 
-(define (clear-history!)
-  (set! history (make-hash))
-  (set! history-counter 0))
-
-(define (show-history)
-  (if (= history-counter 0)
-      (displayln "No history yet.")
-      (for ([i (in-range 1 (+ history-counter 1))])
-        (printf "$~a = ~a~n" i (hash-ref history i)))))
-
 (define (eval-prefix expr [save-to-history? #t])
   (define tokens (string-split expr))
   (define (helper tokens)
