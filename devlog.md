@@ -1,7 +1,18 @@
 October 23, 2025, 2:06 PM
 
-I am planning to first write a function to calculate the prefix notation expression.
-I will worry about handling input, history, and other features later.
+Initial Thoughts:
+
+I am going to implement a prefix notation calculator in Racket.
+I understand that prefix notation (also known as Polish notation) is a mathematical notation in which every operator precedes its operands.
+For example, the expression "+ 3 4" in prefix notation is equivalent to "3 + 4" in infix notation.
+
+I also understand that there needs to be 2 execution modes implemented:
+Interactive - with prompts
+Batch - results only
+
+Plan for This Session:
+
+I am planning to first write a function to calculate the prefix notation expression. I will worry about handling input, history, and other features later. My goal is to get basic expression evaluation working with hardcoded test cases before adding complexity.
 
 October 23, 2025, 7:23 PM
 
