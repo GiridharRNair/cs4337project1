@@ -22,7 +22,10 @@ simple.
 
 Instead of creating a function to format the input, I created a tokenize function that handles
 trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the 
-expressions.
+expressions. 
+
+The tokenize function uses regular expressions to match valid tokens (numbers, operators, and
+history references) and returns a list of tokens.
 
 October 23, 2025 8:28 PM
 
