@@ -1,6 +1,6 @@
 #lang racket
 
-(define prompt?
+(define interactive?
   (let ([args (current-command-line-arguments)])
     (cond
       [(= (vector-length args) 0) #t]
@@ -72,35 +72,33 @@
 
   result)
 
-; ;; Tests
-; (tokenize "+3*45") ; => '("+" "3" "*" "4" "5")
-; (tokenize "  + 3  * 4 5  ") ; => '("+" "3" "*" "4" "5")
-; (tokenize "+$1*45") ; => '("+" "$1" "*" "4" "5")
-
-; (eval-prefix "+3*45") ; => 23
-; (eval-prefix "* $1 2") ; => 46
-; (eval-prefix "+ $1 $2") ; => 69
-
-
 (define (repl history)
-  (display "> ")
-  (flush-output)
+  (when interactive?
+    (display "> ")
+    (flush-output))
+
   (define input (read-line))
 
   (cond
+    [(eof-object? input) (void)]
     [(string=? input "quit") (void)]
     [else
      (with-handlers ([exn:fail? (lambda (e)
                                   (displayln (format "Error: ~a" (exn-message e)))
-                                  (repl history))])
+                                  (when interactive?
+                                    (repl history)))])
        (define result (eval-prefix input history))
        (define new-history (cons result history))
        (define history-id (length new-history))
-       (display history-id)
-       (display ": ")
+
+       (when interactive?
+         (display history-id)
+         (display ": "))
        (display (real->double-flonum result))
        (newline)
-       (repl new-history))]))
 
-(when prompt?
-  (repl '()))
+       (if interactive?
+           (repl new-history)
+           (void)))]))
+
+(repl '())
