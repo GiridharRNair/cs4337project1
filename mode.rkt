@@ -119,8 +119,7 @@
     [else
      (with-handlers ([exn:fail? (lambda (e)
                                   (displayln (format "Error: ~a" (exn-message e)))
-                                  (when interactive?
-                                    (repl history)))])
+                                  (repl history))])
        (define result (eval-prefix input history))
        (define new-history (cons result history))
        (define history-id (length new-history))
@@ -131,8 +130,6 @@
        (display (real->double-flonum result))
        (newline)
 
-       (if interactive?
-           (repl new-history)
-           (void)))]))
+       (repl new-history))]))
 
 (repl '())
