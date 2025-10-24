@@ -56,8 +56,9 @@ I initially created some history helper functions (clear-history, show-history) 
 
 #### Work Notes:
 Instead of creating a separate function to format the input, I created a tokenize function that handles trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the expressions since I can work with a clean list of tokens.
-The tokenize function uses regular expressions to match valid tokens (numbers, operators, and history references) and returns a list of tokens. This approach handles:
+The tokenize function uses regular expressions to match valid tokens (numbers, operators, and history references) and returns a list of tokens. 
 
+This approach handles:
 Leading/trailing whitespace
 Multiple spaces between tokens
 Invalid characters (by only matching valid patterns)
@@ -117,20 +118,17 @@ Tests were added and the batching/history logic was updated so negative values p
 
 #### Session Reflection:
 Major bug fix today with the minus operator. This could have cost significant points if not caught! The spec is very clear that there's no subtraction operator - only negation.
-Batch mode is working correctly now. Tested with:
-
-Multiple expressions in sequence
-History references across expressions
-Error cases in batch mode
-
-Everything seems to be working correctly. The functional approach with immutable history is clean and working well.
+Batch mode is working correctly now.
 
 ### October 24, 2025 11:07 AM
 
-The current tokenize funtion uses regular expressions to identify valid tokens in the input expression.
-I am going to refactor the tokenize function to use a more functional approach without regular expressions.
+#### Thoughts Since Last Session
+The tokenize function works but uses regular expressions, which feels less functional. I want to refactor it to use a more purely functional character-by-character parsing approach. This will also give me more control over error messages and edge cases.
 
-October 24, 2025 11:34 AM
+#### Plan for This Session
+The current tokenize function uses regular expressions to identify valid tokens in the input expression. I am going to refactor the tokenize function to use a more functional approach without regular expressions.
+
+### October 24, 2025 11:34 AM
 
 I am going to revise this devlog to be more comprehensive and organized.
 
