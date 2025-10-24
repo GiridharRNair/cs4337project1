@@ -29,21 +29,26 @@ Added division by zero checking
 Initially struggled with how to handle the "remaining input" - solved by returning pairs of (result, remaining-chars)
 Had to think carefully about the order of operands for division (left operand divided by right operand)
 
-October 23, 2025, 7:23 PM
+### October 23, 2025, 7:23 PM
 
-Session Reflection:
-
-Successfully implemented a basic prefix notation evaluator. The recursive approach works well - each operator consumes its operands and returns both the result and remaining characters. This makes it easy to handle nested expressions.
-
-I am going to implement the history feature next, so the prefix notation calculator function
-can refer back to prior results if needed.
+#### Thoughts Since Last Session:
+The basic evaluator is working, which gives me confidence. Now I need to add the history feature, which is central to this project. I'm thinking about how to structure this - the specification says to use a functional approach with history as a parameter to the eval loop.
 
 I also installed a Racket library to format the source code nicely.
 
 Command: raco fmt -i <filename>.rkt
 For future reference: raco fmt -i mode.rkt
 
-October 23, 2025 7:55 PM
+#### Plan for This Session:
+I am going to implement the history feature next, so the prefix notation calculator function can refer back to prior results if needed.
+
+#### Goals:
+Add history parameter to the evaluation function
+Implement $n parsing to extract history references
+Test that history lookups work correctly with proper indexing (1-based, not 0-based)
+Handle errors for invalid history indices
+
+### October 23, 2025 7:55 PM
 
 I am going to implement a function(s) to format the input to evaluate the prefix expressions.
 I need to consider leading/trailing spaces, multiple spaces between tokens, and invalid characters.
