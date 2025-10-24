@@ -63,20 +63,21 @@ racket mode.rkt -b
 Behavior in batch mode:
 
 - No interactive prompt
-- Each input line is processed independently; output is printed line-by-line
+- Each input line is processed; output is printed line-by-line
+- Output format matches interactive mode: results are prefixed with history id (1-based), e.g., `3: 14.0`
 - Suitable for automated testing and piping
 
 Batch mode examples:
 
 ```bash
 echo "+ 3 4" | racket mode.rkt -b
-# prints: 7.0
+# prints: 1: 7.0
 
 echo -e "+ 1 2\n* 3 4\n+ 1 \$1" | racket mode.rkt -b
 # prints:
-# 3.0
-# 12.0
-# 4.0
+# 1: 3.0
+# 2: 12.0
+# 3: 4.0
 ```
 
 ## Tests (how to run and verify)
