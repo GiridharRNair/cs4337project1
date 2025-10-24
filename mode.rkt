@@ -23,19 +23,17 @@
   (define trimmed (string-trim expr))
   (when (string=? trimmed "")
     (error "Invalid input: empty expression"))
-
-  ;; Match: $-references, operators, or single digits (in that order!)
-  (regexp-match* #rx"\\$[0-9]+|[+*/-]|[0-9]" trimmed))
+  (regexp-match* #rx"\\$[0-9]+|-?[0-9]+|[+*/]" trimmed))
 
 (define (eval-prefix expr [save-to-history? #t])
   (define tokens (tokenize expr))
 
   (when (null? tokens)
-    (error "Invalid input: no tokens to evaluate"))
+    (error "Invalid input-No tokens to evaluate"))
 
   (define (helper tokens)
     (when (null? tokens)
-      (error "Invalid expression: unexpected end of input"))
+      (error "Invalid expression-Unexpected end of input"))
 
     (define token (car tokens))
     (define rest (cdr tokens))
@@ -101,7 +99,7 @@
      (with-handlers ([exn:fail? (lambda (e) (displayln (format "Error: ~a" (exn-message e))))])
        (define result (eval-prefix input))
        (displayln result))
-     (repl)])) 
+     (repl)]))
 
 (when prompt?
   (repl))

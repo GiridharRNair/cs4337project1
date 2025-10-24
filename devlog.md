@@ -11,6 +11,7 @@ can refer back to prior results if needed.
 I also installed a Racket library to format the source code nicely.
 
 Command: raco fmt -i <filename>.rkt
+raco fmt -i mode.rkt
 
 October 23, 2025 7:55 PM
 
@@ -30,3 +31,6 @@ October 23, 2025 9:03 PM
 
 I am going to implement the logic to prompt the user for an input expression and display the output.
 I added a simple REPL loop to read user input, tokenize it, and print the tokens for now.
+
+I am going to create a comprehensive, organized test suite for this project.
+
