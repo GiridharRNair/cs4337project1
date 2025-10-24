@@ -54,6 +54,11 @@ During testing, a problem was discovered with the unary minus: it had been handl
 
 Tests were added and the batching/history logic was updated so negative values propagate correctly.
 
+October 24, 2025 11:07 AM
+
+The current tokenize funtion uses regular expressions to identify valid tokens in the input expression.
+I am going to refactor the tokenize function to use a more functional approach without regular expressions.
+
 
 
 
