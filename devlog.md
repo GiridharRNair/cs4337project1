@@ -43,4 +43,11 @@ immutable list-based history.
 I also implemented logic to display the evaluated result of the prefix expression in the REPL loop
 with the history id.
 
+October 24, 2025 10:23 AM
+
+I implemented the logic for evaluating prefix expressions with batch mode.
+
+
+
+
 
