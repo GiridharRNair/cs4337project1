@@ -124,9 +124,8 @@
        (define new-history (cons result history))
        (define history-id (length new-history))
 
-       (when interactive?
-         (display history-id)
-         (display ": "))
+       (display history-id)
+       (display ": ")
        (display (real->double-flonum result))
        (newline)
 
