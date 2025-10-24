@@ -9,6 +9,14 @@ I am going to implement the history feature next, so the prefix notation calcula
 can refer back to prior results if needed.
 
 I also installed a Racket library to format the source code nicely.
+
 Command: raco fmt -i <filename>.rkt
 
+October 23, 2025 7:55 PM
 
+I am going to implement a function(s) to format the input to evaluate the prefix expressions.
+I need to consider leading/trailing spaces, multiple spaces between tokens, and invalid characters.
+I removed unnecessary history functions like clear-history and show-history for now to keep the code simple.
+
+Instead of creating a function to format the input, I created a tokenize function that handles
+trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the expressions.
