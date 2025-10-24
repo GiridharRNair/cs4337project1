@@ -18,7 +18,7 @@
   (define trimmed (string-trim expr))
   (when (string=? trimmed "")
     (error "Invalid input: empty expression"))
-  (regexp-match* #rx"\\$[0-9]+|-?[0-9]+|[+*/]" trimmed))
+  (regexp-match* #rx"\\$[0-9]+|[0-9]+|[+*/~-]" trimmed))
 
 (define (eval-prefix expr history)
   (define tokens (tokenize expr))
@@ -41,8 +41,15 @@
            (values (get-from-history history index) rest)
            (error (format "Invalid history reference: ~a" token)))]
 
-      ;; Operator
-      [(member token '("+" "-" "*" "/"))
+      ;; Unary negation operator
+      [(string=? token "-")
+       (when (null? rest)
+         (error "Unary negation missing operand"))
+       (define-values (operand rest-after-operand) (helper rest))
+       (values (- operand) rest-after-operand)]
+
+      ;; Binary operators
+      [(member token '("+" "*" "/"))
        (when (null? rest)
          (error (format "Operator ~a missing operands" token)))
        (define-values (left rest-after-left) (helper rest))
@@ -53,7 +60,6 @@
          (error "Division by zero"))
        (values (case token
                  [("+") (+ left right)]
-                 [("-") (- left right)]
                  [("*") (* left right)]
                  [("/") (/ left right)])
                rest-after-right)]
