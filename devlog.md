@@ -50,19 +50,19 @@ Handle errors for invalid history indices
 
 ### October 23, 2025 7:55 PM
 
-I am going to implement a function(s) to format the input to evaluate the prefix expressions.
-I need to consider leading/trailing spaces, multiple spaces between tokens, and invalid characters.
-I removed unnecessary history functions like clear-history and show-history for now to keep the code 
-simple.
+#### Plan for This Session:
+I am going to implement a function(s) to format the input to evaluate the prefix expressions. I need to consider leading/trailing spaces, multiple spaces between tokens, and invalid characters.
+I initially created some history helper functions (clear-history, show-history) but removed them to keep the code simple since they aren't required by the specification.
 
-Instead of creating a function to format the input, I created a tokenize function that handles
-trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the 
-expressions. 
+#### Work Notes:
+Instead of creating a separate function to format the input, I created a tokenize function that handles trimming spaces and splitting the expression into tokens. This will make it easier to evaluate the expressions since I can work with a clean list of tokens.
+The tokenize function uses regular expressions to match valid tokens (numbers, operators, and history references) and returns a list of tokens. This approach handles:
 
-The tokenize function uses regular expressions to match valid tokens (numbers, operators, and
-history references) and returns a list of tokens.
+Leading/trailing whitespace
+Multiple spaces between tokens
+Invalid characters (by only matching valid patterns)
 
-October 23, 2025 8:28 PM
+### October 23, 2025 8:28 PM
 
 I am going to remove unused functions to clean up the code.
 I have removed both prior format input functions since the tokenize function now handles input 
