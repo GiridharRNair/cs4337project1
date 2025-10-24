@@ -70,18 +70,35 @@ Code is getting cleaner and more focused on the core requirements.
 
 ### October 23, 2025 9:03 PM
 
-I am going to implement the logic to prompt the user for an input expression and display the output.
-I added a simple REPL loop to read user input, tokenize it, and print the tokens for now.
+#### Plan for This Session:
+I am going to implement the logic to prompt the user for an input expression and display the output. Need to build the REPL (Read-Eval-Print Loop) that handles:
 
-I am going to create a comprehensive, organized test suite for this project.
+Prompting user with "> " in interactive mode
+Reading input lines
+Detecting "quit" command
+Displaying results with history IDs
 
-I realized that my logic for history involved mutable hash-based history. I switched to using an 
-immutable list-based history.
+#### Work Notes:
+Added a simple REPL loop to read user input, tokenize it, and print the tokens for now. This is a starting point before full evaluation.
+Important realization: my logic for history involved mutable hash-based history. This goes against the functional programming paradigm we should be using! I switched to using an immutable list-based history that gets passed as a parameter to the REPL function. Each successful evaluation cons-es the new result onto the history list.
+I also implemented logic to display the evaluated result of the prefix expression in the REPL loop with the history id. The format is: "id: result" where id starts at 1 and increments.
 
-I also implemented logic to display the evaluated result of the prefix expression in the REPL loop
-with the history id.
+#### Session Reflection:
+Good progress tonight. The REPL is working and I've made the important switch from mutable to immutable data structures for history. This is much more aligned with functional programming principles.
 
-October 24, 2025 10:23 AM
+Challenges:
+Initially used a hash table for history (bad for functional style)
+Had to think about how history IDs work - they're 1-based, and the list is in reverse order (most recent first)
+Needed to reverse the history list when looking up by ID
+
+The tokenize approach with regex is working but feels a bit un-functional. Might revisit this.
+
+Next session:
+Test thoroughly with complex expressions
+Add comprehensive test cases
+Ensure error handling is robust
+
+### October 24, 2025 10:23 AM
 
 Implemented batch-mode evaluation for prefix expressions. 
 
