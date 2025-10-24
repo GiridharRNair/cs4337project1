@@ -59,6 +59,10 @@ October 24, 2025 11:07 AM
 The current tokenize funtion uses regular expressions to identify valid tokens in the input expression.
 I am going to refactor the tokenize function to use a more functional approach without regular expressions.
 
+October 24, 2025 11:34 AM
+
+I am going to revise this devlog to be more comprehensive and organized.
+
 
 
 
