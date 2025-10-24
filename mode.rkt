@@ -11,6 +11,13 @@
 (define history (make-hash))
 (define history-counter 0)
 
+(define (format-input expr)
+  (define trimmed (string-trim expr))
+  (define normalized (regexp-replace* #rx"\\s+" trimmed " "))
+  (if (string=? normalized "")
+      (error "Invalid input")
+      normalized))
+
 (define (add-to-history! value)
   (set! history-counter (+ history-counter 1))
   (hash-set! history history-counter value)
@@ -55,6 +62,8 @@
     (add-to-history! result))
   result)
 
-(eval-prefix "+ 3 * 4 5")
+(format-input "+3*45")
+
+(eval-prefix "+3*45")
 (eval-prefix "* $1 2")
 (eval-prefix "+ $1 $2")
