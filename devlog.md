@@ -1,6 +1,6 @@
-October 23, 2025, 2:06 PM
+### October 23, 2025, 2:06 PM
 
-Initial Thoughts:
+#### Initial Thoughts:
 
 I am going to implement a prefix notation calculator in Racket.
 I understand that prefix notation (also known as Polish notation) is a mathematical notation in which every operator precedes its operands.
@@ -10,11 +10,30 @@ I also understand that there needs to be 2 execution modes implemented:
 Interactive - with prompts
 Batch - results only
 
-Plan for This Session:
+#### Plan for This Session:
 
 I am planning to first write a function to calculate the prefix notation expression. I will worry about handling input, history, and other features later. My goal is to get basic expression evaluation working with hardcoded test cases before adding complexity.
 
+### October 23, 2025, 5:50 PM
+
+#### Session Reflection:
+Successfully implemented a basic prefix notation evaluator. The recursive approach works well - each operator consumes its operands and returns both the result and remaining characters. This makes it easy to handle nested expressions.
+
+#### Accomplishments:
+Created parse functions for numbers and opeators.
+Implemented recursive evaluation that consumes input left-to-right
+Basic arithmetic operations (+, *, /) working correctly
+Added division by zero checking
+
+#### Challenges:
+Initially struggled with how to handle the "remaining input" - solved by returning pairs of (result, remaining-chars)
+Had to think carefully about the order of operands for division (left operand divided by right operand)
+
 October 23, 2025, 7:23 PM
+
+Session Reflection:
+
+Successfully implemented a basic prefix notation evaluator. The recursive approach works well - each operator consumes its operands and returns both the result and remaining characters. This makes it easy to handle nested expressions.
 
 I am going to implement the history feature next, so the prefix notation calculator function
 can refer back to prior results if needed.
