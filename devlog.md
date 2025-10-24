@@ -25,3 +25,8 @@ October 23, 2025 8:28 PM
 
 I am going to remove unused functions to clean up the code.
 I have removed both prior format input functions since the tokenize function now handles input formatting.
+
+October 23, 2025 9:03 PM
+
+I am going to implement the logic to prompt the user for an input expression and display the output.
+I added a simple REPL loop to read user input, tokenize it, and print the tokens for now.

@@ -81,11 +81,27 @@
     (add-to-history! result))
   result)
 
-;; Tests
-(tokenize "+3*45") ; => '("+" "3" "*" "4" "5")
-(tokenize "  + 3  * 4 5  ") ; => '("+" "3" "*" "4" "5")
-(tokenize "+$1*45") ; => '("+" "$1" "*" "4" "5")
+; ;; Tests
+; (tokenize "+3*45") ; => '("+" "3" "*" "4" "5")
+; (tokenize "  + 3  * 4 5  ") ; => '("+" "3" "*" "4" "5")
+; (tokenize "+$1*45") ; => '("+" "$1" "*" "4" "5")
 
-(eval-prefix "+3*45") ; => 23
-(eval-prefix "* $1 2") ; => 46
-(eval-prefix "+ $1 $2") ; => 69
+; (eval-prefix "+3*45") ; => 23
+; (eval-prefix "* $1 2") ; => 46
+; (eval-prefix "+ $1 $2") ; => 69
+
+(define (repl)
+  (display "> ")
+  (flush-output)
+  (define input (read-line))
+
+  (cond
+    [(string=? input "quit") (void)]
+    [else
+     (with-handlers ([exn:fail? (lambda (e) (displayln (format "Error: ~a" (exn-message e))))])
+       (define result (eval-prefix input))
+       (displayln result))
+     (repl)])) 
+
+(when prompt?
+  (repl))
