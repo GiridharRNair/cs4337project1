@@ -143,8 +143,12 @@ Instructions for running in interactive mode
 Instructions for running in batch mode
 Examples of usage
 
+### October 24, 2025 2:00 PM
 
+#### Plan for This Session
+I am going to create a test file with various test cases to thoroughly test the prefix notation calculator in batch mode. 
+This will help ensure all features work as expected and edge cases are handled properly.
 
+My main goal this session is to complete this project and get ready for submission.
 
-
-
+I will also update the README.md accordingly to reflect any changes made during testing.
