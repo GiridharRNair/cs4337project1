@@ -12,71 +12,99 @@
   (define reversed-history (reverse history))
   (if (and (> index 0) (<= index (length history)))
       (list-ref reversed-history (- index 1))
-      (error (format "History reference $~a not found" index))))
+      (error "Invalid Expression")))
 
-(define (tokenize expr)
-  (define trimmed (string-trim expr))
-  (when (string=? trimmed "")
-    (error "Invalid input: empty expression"))
-  (regexp-match* #rx"\\$[0-9]+|[0-9]+|[+*/~-]" trimmed))
+(define (skip-whitespace chars)
+  (cond
+    [(null? chars) '()]
+    [(char-whitespace? (car chars)) (skip-whitespace (cdr chars))]
+    [else chars]))
+
+(define (parse-number chars)
+  (define (collect-digits chars acc)
+    (cond
+      [(null? chars) (list acc '())]
+      [(char-numeric? (car chars)) (collect-digits (cdr chars) (cons (car chars) acc))]
+      [else (list acc chars)]))
+
+  (define result (collect-digits chars '()))
+  (define digits (reverse (car result)))
+  (define remaining (cadr result))
+
+  (if (null? digits)
+      #f
+      (list (string->number (list->string digits)) remaining)))
+
+(define (parse-history chars)
+  (cond
+    [(null? chars) #f]
+    [(not (char=? (car chars) #\$)) #f]
+    [else
+     (define num-result (parse-number (cdr chars)))
+     (if num-result
+         (list (car num-result) (cadr num-result))
+         #f)]))
+
+(define (is-operator? c)
+  (or (char=? c #\+) (char=? c #\*) (char=? c #\/) (char=? c #\-)))
 
 (define (eval-prefix expr history)
-  (define tokens (tokenize expr))
+  (define chars (string->list expr))
 
-  (when (null? tokens)
-    (error "Invalid input-No tokens to evaluate"))
+  (define (eval-helper chars)
+    (define trimmed (skip-whitespace chars))
 
-  (define (helper tokens)
-    (when (null? tokens)
-      (error "Invalid expression-Unexpected end of input"))
+    (when (null? trimmed)
+      (error "Invalid Expression"))
 
-    (define token (car tokens))
-    (define rest (cdr tokens))
+    (define first-char (car trimmed))
+    (define rest-chars (cdr trimmed))
 
     (cond
-      ;; History reference
-      [(and (> (string-length token) 1) (char=? (string-ref token 0) #\$))
-       (define index (string->number (substring token 1)))
-       (if index
-           (values (get-from-history history index) rest)
-           (error (format "Invalid history reference: ~a" token)))]
+      [(char=? first-char #\$)
+       (define hist-result (parse-history trimmed))
+       (if hist-result
+           (let ([index (car hist-result)]
+                 [remaining (cadr hist-result)])
+             (cons (get-from-history history index) remaining))
+           (error "Invalid Expression"))]
 
-      ;; Unary negation operator
-      [(string=? token "-")
-       (when (null? rest)
-         (error "Unary negation missing operand"))
-       (define-values (operand rest-after-operand) (helper rest))
-       (values (- operand) rest-after-operand)]
+      [(char=? first-char #\-)
+       (define operand-result (eval-helper rest-chars))
+       (cons (- (car operand-result)) (cdr operand-result))]
 
-      ;; Binary operators
-      [(member token '("+" "*" "/"))
-       (when (null? rest)
-         (error (format "Operator ~a missing operands" token)))
-       (define-values (left rest-after-left) (helper rest))
-       (when (null? rest-after-left)
-         (error (format "Operator ~a missing second operand" token)))
-       (define-values (right rest-after-right) (helper rest-after-left))
-       (when (and (string=? token "/") (= right 0))
-         (error "Division by zero"))
-       (values (case token
-                 [("+") (+ left right)]
-                 [("*") (* left right)]
-                 [("/") (/ left right)])
-               rest-after-right)]
+      [(char=? first-char #\+)
+       (define left-result (eval-helper rest-chars))
+       (define right-result (eval-helper (cdr left-result)))
+       (cons (+ (car left-result) (car right-result)) (cdr right-result))]
 
-      ;; Number
-      [else
-       (define num (string->number token))
-       (if num
-           (values num rest)
-           (error (format "Invalid token: '~a'" token)))]))
+      [(char=? first-char #\*)
+       (define left-result (eval-helper rest-chars))
+       (define right-result (eval-helper (cdr left-result)))
+       (cons (* (car left-result) (car right-result)) (cdr right-result))]
 
-  (define-values (result remaining) (helper tokens))
+      [(char=? first-char #\/)
+       (define left-result (eval-helper rest-chars))
+       (define right-result (eval-helper (cdr left-result)))
+       (when (= (car right-result) 0)
+         (error "Invalid Expression"))
+       (cons (quotient (car left-result) (car right-result)) (cdr right-result))]
+
+      [(char-numeric? first-char)
+       (define num-result (parse-number trimmed))
+       (if num-result
+           (cons (car num-result) (cadr num-result))
+           (error "Invalid Expression"))]
+
+      [else (error "Invalid Expression")]))
+
+  (define result (eval-helper chars))
+  (define remaining (skip-whitespace (cdr result)))
 
   (when (not (null? remaining))
-    (error (format "Unused tokens: ~a" remaining)))
+    (error "Invalid Expression"))
 
-  result)
+  (car result))
 
 (define (repl history)
   (when interactive?
