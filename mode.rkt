@@ -8,16 +8,11 @@
       [(string=? (vector-ref args 0) "--batch") #f]
       [else #t])))
 
-(define history (make-hash))
-(define history-counter 0)
-
-(define (add-to-history! value)
-  (set! history-counter (+ history-counter 1))
-  (hash-set! history history-counter value)
-  history-counter)
-
-(define (get-from-history index)
-  (hash-ref history index (lambda () (error (format "History reference $~a not found" index)))))
+(define (get-from-history history index)
+  (define reversed-history (reverse history))
+  (if (and (> index 0) (<= index (length history)))
+      (list-ref reversed-history (- index 1))
+      (error (format "History reference $~a not found" index))))
 
 (define (tokenize expr)
   (define trimmed (string-trim expr))
@@ -25,7 +20,7 @@
     (error "Invalid input: empty expression"))
   (regexp-match* #rx"\\$[0-9]+|-?[0-9]+|[+*/]" trimmed))
 
-(define (eval-prefix expr [save-to-history? #t])
+(define (eval-prefix expr history)
   (define tokens (tokenize expr))
 
   (when (null? tokens)
@@ -43,7 +38,7 @@
       [(and (> (string-length token) 1) (char=? (string-ref token 0) #\$))
        (define index (string->number (substring token 1)))
        (if index
-           (values (get-from-history index) rest)
+           (values (get-from-history history index) rest)
            (error (format "Invalid history reference: ~a" token)))]
 
       ;; Operator
@@ -75,8 +70,6 @@
   (when (not (null? remaining))
     (error (format "Unused tokens: ~a" remaining)))
 
-  (when save-to-history?
-    (add-to-history! result))
   result)
 
 ; ;; Tests
@@ -88,7 +81,8 @@
 ; (eval-prefix "* $1 2") ; => 46
 ; (eval-prefix "+ $1 $2") ; => 69
 
-(define (repl)
+
+(define (repl history)
   (display "> ")
   (flush-output)
   (define input (read-line))
@@ -96,10 +90,17 @@
   (cond
     [(string=? input "quit") (void)]
     [else
-     (with-handlers ([exn:fail? (lambda (e) (displayln (format "Error: ~a" (exn-message e))))])
-       (define result (eval-prefix input))
-       (displayln result))
-     (repl)]))
+     (with-handlers ([exn:fail? (lambda (e)
+                                  (displayln (format "Error: ~a" (exn-message e)))
+                                  (repl history))])
+       (define result (eval-prefix input history))
+       (define new-history (cons result history))
+       (define history-id (length new-history))
+       (display history-id)
+       (display ": ")
+       (display (real->double-flonum result))
+       (newline)
+       (repl new-history))]))
 
 (when prompt?
-  (repl))
+  (repl '()))

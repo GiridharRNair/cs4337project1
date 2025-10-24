@@ -34,3 +34,9 @@ I added a simple REPL loop to read user input, tokenize it, and print the tokens
 
 I am going to create a comprehensive, organized test suite for this project.
 
+I realized that my logic for history involved mutable hash-based history. I switched to using an immutable list-based history.
+
+I also implemented logic to display the evaluated result of the prefix expression in the REPL loop
+with the history id.
+
+
