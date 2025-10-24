@@ -11,19 +11,6 @@
 (define history (make-hash))
 (define history-counter 0)
 
-; (define (format-input expr)
-;   (define trimmed (string-trim expr))
-;   (if (string=? trimmed "")
-;       (error "Invalid input: empty expression")
-;       ;; First add spaces around operators/references, then normalize all whitespace
-;       (let* ([spaced (regexp-replace* #rx"([+*/\\-])" trimmed " \\1 ")]
-;              [spaced-refs (regexp-replace* #rx"(\\$[0-9]+)" spaced " \\1 ")]
-;              [normalized (regexp-replace* #rx"\\s+" spaced-refs " ")]
-;              [final (string-trim normalized)])
-;         (if (string=? final "")
-;             (error "Invalid input: empty expression")
-;             final))))
-
 (define (add-to-history! value)
   (set! history-counter (+ history-counter 1))
   (hash-set! history history-counter value)
@@ -31,14 +18,6 @@
 
 (define (get-from-history index)
   (hash-ref history index (lambda () (error (format "History reference $~a not found" index)))))
-
-; (define (format-input expr)
-;   (define trimmed (string-trim expr))
-;   (when (string=? trimmed "")
-;     (error "Invalid input: empty expression"))
-
-;   ;; Just normalize whitespace - the tokenizer will handle the rest
-;   (regexp-replace* #rx"\\s+" trimmed " "))
 
 (define (tokenize expr)
   (define trimmed (string-trim expr))
