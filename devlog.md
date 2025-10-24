@@ -64,11 +64,11 @@ Invalid characters (by only matching valid patterns)
 
 ### October 23, 2025 8:28 PM
 
-I am going to remove unused functions to clean up the code.
-I have removed both prior format input functions since the tokenize function now handles input 
-formatting.
+#### Plan for This Session
+I am going to remove unused functions to clean up the code. I have removed both prior format input functions since the tokenize function now handles input formatting better.
+Code is getting cleaner and more focused on the core requirements.
 
-October 23, 2025 9:03 PM
+### October 23, 2025 9:03 PM
 
 I am going to implement the logic to prompt the user for an input expression and display the output.
 I added a simple REPL loop to read user input, tokenize it, and print the tokens for now.
