@@ -45,7 +45,11 @@ with the history id.
 
 October 24, 2025 10:23 AM
 
-Implemented batch-mode evaluation for prefix expressions. During testing, a problem was discovered with the unary minus: it had been handled as binary subtraction, which the project specification disallows. Because subtraction should be expressed as addition of a negative number, the evaluator was changed to treat unary minus as numeric negation (and to accept negative literals). Tests were added and the batching/history logic was updated so negative values propagate correctly.
+Implemented batch-mode evaluation for prefix expressions. 
+
+During testing, a problem was discovered with the unary minus: it had been handled as binary subtraction, which the project specification disallows. Because subtraction should be expressed as addition of a negative number, the evaluator was changed to treat unary minus as numeric negation (and to accept negative literals). 
+
+Tests were added and the batching/history logic was updated so negative values propagate correctly.
 
 
 
