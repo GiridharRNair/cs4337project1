@@ -11,7 +11,7 @@ can refer back to prior results if needed.
 I also installed a Racket library to format the source code nicely.
 
 Command: raco fmt -i <filename>.rkt
-raco fmt -i mode.rkt
+For future reference: raco fmt -i mode.rkt
 
 October 23, 2025 7:55 PM
 
@@ -45,7 +45,7 @@ with the history id.
 
 October 24, 2025 10:23 AM
 
-I implemented the logic for evaluating prefix expressions with batch mode.
+Implemented batch-mode evaluation for prefix expressions. During testing, a problem was discovered with the unary minus: it had been handled as binary subtraction, which the project specification disallows. Because subtraction should be expressed as addition of a negative number, the evaluator was changed to treat unary minus as numeric negation (and to accept negative literals). Tests were added and the batching/history logic was updated so negative values propagate correctly.
 
 
 
